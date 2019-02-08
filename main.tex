@@ -1,0 +1,457 @@
+\documentclass[12pt,reqno,twoside,titlepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm}
+\usepackage{csquotes}
+\usepackage[square,numbers,sort&compress]{natbib}
+\begin{document}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\title{Matrix Decompositions}
+\author{George Keeble
+  \and
+  Jishnu Kaiwar
+  \and
+  Bing En Gan
+  \and
+  Jevvy Huang
+}
+\date{January 2019}
+
+\maketitle
+
+\begin{abstract}
+  abstract here
+\end{abstract}
+
+\section{Introduction}
+\label{sec:int}
+the quick brown fox jumped over the lazy dog.
+
+\section{Gaussian Elimination}
+\label{sec:gaus}
+
+Gaussian elimination (or row reduction) is used for solving systems of equations in linear algebra, it also plays a part in evaluating the rank, determinant and consequently the inverse of a matrix.
+This algorithm is attributed to the mathematician Carl Gauss (1777-1855) however there is some speculation that some Chinese mathematicians were using this string of thought as early as 179 A.D. which I shall touch on breifly when discussing ‘Fangcheng’.
+In order to compute the algorithm one must have a grounded understanding of elementary matrices and possible elementary row operations.
+There are three elementary row operations;
+
+\begin{enumerate}
+\item Swapping two rows
+\item Multiplying a row by $\lambda \in \mathbb{R}$ such that $\lambda \ne 0$
+\item Adding a multiple of one row to another row
+\end{enumerate}
+
+We now need to define an upper triangular matrix, specifically what it means for it to be in row echelon form or reduced row echelon form.
+
+\section{LU Decomposition}
+\label{sec:LUD}
+\subsection{Basic Concept}
+\label{subsec:LUD:BAC}
+The LU decomposition is the process of factorizing a given square matrix, $A$ into a unit lower triangular matrix, $L$ and an upper triangular matrix, $U$.
+From \ref{sec:gaus}, the main point of Gaussian elimination is to convert a matrix into a triangular matrix.
+The LU decomposition is an extension of the Gaussian elimination algorithm in order to take advantage of the triangular matrix system.
+\newline
+Suppose that we have a square matrix $A$, we can write:
+$$A = LU,$$ 
+where
+\begin{equation*}
+  L=\begin{pmatrix}
+    1 & 0 & 0 \\
+    l_{21} & 1 & 0 \\
+    l_{31} & l_{32} & 1
+  \end{pmatrix}
+  ,
+  \quad
+  U=\begin{pmatrix}
+    u_{11} & u_{12} & u_{13}\\
+    0 & u_{22} & u_{23}\\
+    0 & 0 & u_{33}
+  \end{pmatrix}
+\end{equation*}
+\begin{center}
+  \begin{equation*}
+    l_{21}, l_{31}, l_{32}, u_{11}, u_{12}, u_{13}, u_{22}, u_{23}, u_{33} \in \mathbb{R};
+  \end{equation*}
+  \begin{equation*}
+    u_{11}, u_{22}, u_{33} \neq 0
+  \end{equation*}
+\end{center}
+The motivation of performing a LU decomposition is that triangular matrices are easier to deal with.
+For example, solving linear system of equations, finding the inverse of a matrix, computing the determinant of a matrix, will be significantly easier with LU decomposition.
+\paragraph{Remark}
+We have to note that a matrix with determinant $0$ will not have a LU decomposition.
+This is because we cannot have an element with value $0$ in the diagonal of both the triangular matrices.
+\subsection{Applying Gaussian Elimination}
+\label{subsec:LUD:AGE}
+For an example, let
+\begin{equation*}
+  A=
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    3 & 7 & 13\\
+    2 & 9 & 18
+  \end{pmatrix}
+\end{equation*}
+and we want to find the LU decomposition of the matrix $A$.
+First, we apply Gaussian elimination without swapping rows.
+By subtracting 3 multiplied row 1 from row 2 and 2 multiplied row 1 from row 3,
+\begin{equation*}
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    3 & 7 & 13\\
+    2 & 9 & 18
+  \end{pmatrix}
+  \sim
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 5 & 10
+  \end{pmatrix}
+\end{equation*}
+Then, we subtract 5 multiplied row 2 from row 3,
+\begin{equation*}
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 5 & 10
+  \end{pmatrix}
+  \sim
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 0 & 5
+  \end{pmatrix}
+\end{equation*}
+Now, we have an upper triangular matrix. Let 
+\begin{equation*}
+  U=
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 0 & 5
+  \end{pmatrix}
+\end{equation*}
+Since we know that we can write Gaussian elimination as a form of matrix multiplication, we have the following equation:
+\begin{equation*}
+  \begin{pmatrix}
+    1 & 0 & 0\\
+    0 & 1 & 0\\
+    0 & -5 & 1 
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & 0 & 0\\
+    -3 & 1 & 0\\
+    -2 & 0 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    3 & 7 & 13\\
+    2 & 9 & 18
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 0 & 5
+  \end{pmatrix}
+\end{equation*}
+By letting 
+\begin{equation*}
+  l_1=
+  \begin{pmatrix}
+    1 & 0 & 0\\
+    -3 & 1 & 0\\
+    -2 & 0 & 1
+  \end{pmatrix}
+\end{equation*}
+and
+\begin{equation*}
+  l_2=
+  \begin{pmatrix}
+    1 & 0 & 0\\
+    0 & 1 & 0\\
+    0 & -5 & 1 
+  \end{pmatrix}
+  ,
+\end{equation*}
+we have that 
+\begin{equation*}
+  l_2l_1A=U
+\end{equation*}
+Before the next step, we need to know two facts:
+\begin{enumerate}
+\item If the inverse of a lower triangular matrix exists, i.e. no element on the diagonal is zero, then the inverse of the lower triangular matrix is still a lower triangular matrix.
+\item The product of two lower triangular matrix is a lower triangular matrix.
+\end{enumerate}
+By multiplying the inverses of $l_1$ and $l_2$, we have
+\begin{align*}
+  l_1^{-1}l_2^{-1}l_2l_1A=l_1^{-1}l_2^{-1}U\\
+  A=l_1^{-1}l_2^{-1}U
+\end{align*}
+Let $L=l_1^{-1}l_2^{-1}$ and we have $A=LU$. Next, find the inverses of $l_1$, $l_2$ and we get:
+\begin{align*}
+  L&=
+     \begin{pmatrix}
+       1 & 0 &0 \\
+       3 & 1 &0 \\
+       2 & 0 &1 
+     \end{pmatrix}
+               \begin{pmatrix}
+                 1 & 0 & 0\\
+                 0 & 1 & 0\\
+                 0 & 5 & 1 
+               \end{pmatrix}\\
+   &=\begin{pmatrix}
+     1 & 0 &0 \\
+     3 & 1 &0 \\
+     2 & 5 &1 
+   \end{pmatrix}
+\end{align*}
+Therefore, we have found a LU decomposition for the matrix A, where 
+\begin{equation*}
+  A =\begin{pmatrix}
+    1 & 2 & 4\\
+    3 & 7 & 13\\
+    2 & 9 & 18
+  \end{pmatrix}
+  ,
+  L=\begin{pmatrix}
+    1 & 0 &0 \\
+    3 & 1 &0 \\
+    2 & 5 &1 
+  \end{pmatrix}
+  ,
+  U=\begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 0 & 5
+  \end{pmatrix}
+\end{equation*}
+\subsection{Alternative Method}
+\label{subsec:LUD:ALM}
+We can also find the LU decomposition of a matrix by using an alternative method.
+In this example, we will use the same matrix,$A$, from \ref{subsec:LUD:AGE}.
+Since we know that LU decomposition decomposes a matrix into two triangular matrices, we can write:
+$$A=LU,$$
+where
+\begin{equation*}
+  L=\begin{pmatrix}
+    1 & 0 & 0 \\
+    l_{21} & 1 & 0 \\
+    l_{31} & l_{32} & 1
+  \end{pmatrix}
+  ,
+  \quad
+  U=\begin{pmatrix}
+    u_{11} & u_{12} & u_{13}\\
+    0 & u_{22} & u_{23}\\
+    0 & 0 & u_{33}
+  \end{pmatrix}
+\end{equation*}
+Multiplying $L$ and $U$, we get
+\begin{equation*}
+  LU=
+  \begin{pmatrix}
+    u_{11} & u_{12} & u_{13}\\
+    l_{21}u_{11} & l_{21}u_{12}+u_{22} & l_{21}u_{13}+u_{23}\\
+    l_{31} & l_{31}u_{12}+l_{32}u_{22} & l_{31}u_{13}+l_{32}u_{23}+u_{33}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 & 2 & 4\\
+    3 & 7 & 13\\
+    2 & 9 & 18
+  \end{pmatrix}
+  =A
+\end{equation*}
+By using simple algebra, we will be able to find $L$ and $U$ respectively.
+Going along the first row, we can see that
+$u_{11}=1$, $u_{12}=2$, and $u_{13}=4$.
+Now considering the second row, we have the following equations:
+$$
+l_{21}u_{11}=3,
+\quad
+l_{21}u_{12}+u_{22}=7,
+\quad
+l_{21}u_{13}+u_{23}=13
+$$
+The equations above can be solved easily and we get:
+$$
+l_{21}=3,
+\quad
+u_{22}=1,
+\quad
+u_{23}=1
+$$
+Looking at the third row and substituting known values into the equations, we get:
+$$
+l_{31}=2,
+\quad
+2(l_{31})+1(l_{32})=9,
+\quad
+4(l_{31})+1(l_{32})+u_{33}=18
+$$
+Solving the above equations, we get:
+$$
+l_{31}=2,
+\quad
+l_{32}=5,
+\quad
+u_{33}=5
+$$
+Substituting the values back into $L$ and $U$, we have:
+\begin{equation*}
+  L=\begin{pmatrix}
+    1 & 0 & 0 \\
+    3 & 1 & 0 \\
+    2 & 5 & 1
+  \end{pmatrix}
+  ,
+  \quad
+  U=\begin{pmatrix}
+    1 & 2 & 4\\
+    0 & 1 & 1\\
+    0 & 0 & 5
+  \end{pmatrix},
+\end{equation*}
+which is the same as the $L$ and $U$ we computed in \ref{subsec:LUD:AGE}.
+\subsection{Pivoting}
+\label{subsec:PIV}
+In the case where we cannot obtain an upper triangular matrix without swapping rows, we will need to perform LU decomposition with pivoting.
+Therefore we will need a permutation matrix. 
+A permutation matrix, $P$, is defined as a $nxn$ matrix with precisely one entry whose value is `1' in each row and column, and all the other entries are `0'.
+Then we have that:
+$$PA=LU,$$
+where $P$ is a permutation matrix, $A$ is a $n$ by $n$ matrix, $L$ is an upper triangular matrix and $L$ is a unit lower triangular matrix.
+\subsection{Application}
+\label{subsec:APP}
+Having known the method to perform a LU decomposition, we will now look at the applications of the LU decomposition.
+There are a lot of application of LU decomposition in the real world, however, in this section, we will talk about the application in these areas:
+\begin{enumerate}
+\item Solving system of linear equations
+\item Computing the determinant
+\item Finding the inverse
+\end{enumerate}
+\subsubsection{Solving system of linear equations}
+\label{subsubsec:LUD:SOL}
+Lets say we are given a system of linear equations:
+\begin{align*}
+  a_{11}x_1+a_{12}x_2+a_{13}x_3=b_1\\
+  a_{21}x_1+a_{22}x_2+a_{33}x_3=b_2\\
+  a_{31}x_1+a_{32}x_2+a_{33}x_3=b_3,
+\end{align*}
+we can rewrite it in the form of $Ax=b$, where
+\begin{equation*}
+  A=
+  \begin{pmatrix}
+    a_{11} & a_{12} & a_{13}\\
+    a_{21} & a_{22} & a_{23}\\
+    a_{31} & a_{32} & a_{33}
+  \end{pmatrix},
+  x=
+  \begin{pmatrix}
+    x_1\\x_2\\x_3
+  \end{pmatrix},
+  b=
+  \begin{pmatrix}
+    b_1\\b_2\\b_3
+  \end{pmatrix}
+\end{equation*}
+Therefore, after performing LU decomposition, we get $LUx=b$.
+First, let $Ux=y$, then use the fact that $Ly=b$ to solve for $y$.
+Then, solve for $x$ by using $Ux=y$.
+The advantage of using this method is that we only need to solve triangular systems, which is very much easier.
+\subsubsection{Computing the determinant}
+\label{subsubsec:LUD:COM}
+Since we know that the determinant of the product of matrices is the product of the determinant of each matrices, in other words:
+$$
+det(A_1A_2\dots A_n)=det(A_1)det(A_2)\dots det(A_n)
+$$
+Therefore, computing the determinant of a matrix after undergoing LU decomposition will be very simple since the determinant of a triangular matrix is the product of the elements on the diagonal.
+In this case, LU decomposition helps shorten the work needed to calculate the determinant of a matrix.
+\subsubsection{Finding the inverse}
+\label{subsubsec:LUD:FTI}
+Let $A$ be a $n$ by $n$ matrix.
+We know that $B$ is the inverse of $A$ if $AB=I$, where $I$ is the identity matrix.
+First, by considering the first column of $B$ and $I$, we have:
+\begin{equation*}
+  A
+  \begin{pmatrix}
+    b_{11}\\b_{21}\\ b_{31}\\ \vdots \\b_{n1}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1\\0\\0\\ \vdots \\ 0
+  \end{pmatrix}
+\end{equation*}
+Similarly for the second column,
+\begin{equation*}
+  A
+  \begin{pmatrix}
+    b_{12}\\b_{22}\\b_{32}\\ \vdots \\b_{n2}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    0\\1\\0\\ \vdots \\ 0
+  \end{pmatrix}
+\end{equation*}
+Similarly, we can do the same for the rest of the columns of $B$.
+We can use LU decomposition to simplify the calculation for the $n$ different sets of equations to obtain $B$, the inverse of $A$.
+% Refrence:
+% http://mathforcollege.com/nm/mws/gen/04sle/mws_gen_sle_txt_ludecomp.pdf
+% https://ask.fxplus.ac.uk/tools/HELM/pages/workbooks_1_50_jan2008/Workbook30/30_3_lu_decmp.pdf
+% http://mathworld.wolfram.com/LUDecomposition.html
+% http://mathfaculty.fullerton.edu/mathews/n2003/LUFactorMod.html
+
+\section{Singular Value Decomposition}
+
+\section{Sensitivity of Solutions to Linear Equations}
+\label{sec:ssl}
+\subsection{How sensitive the solution of linear equations is to small changes in the coefficients }
+\subsubsection{Computing the perturbed system}
+Let
+
+$$Ax=b$$
+be our original linear system, where$A\in\mathbb{R}^{n\times n}$ and $b\in\mathbb{R}^n$.
+\newline
+We then want to change the coefficients of our original system by rewriting the equation to
+$$(A+\Delta A)x'=b$$
+where $\Delta A\in \mathbb{R}^{n\times n}$ represents the small changes we have made in the coefficient of matrix A.
+\newline
+Let $\Delta x$ represent the changes to the solutions of the original linear system caused by changing the coefficients, i.e. 
+$$\Delta x=x'-x.$$
+\newline 
+By rearranging we get
+$$x'=x+\Delta x.$$
+Substituting this back into our perturbed system we get
+\begin{align*}
+(A+\Delta A)(x+\Delta x)= b\\
+Ax+A\Delta x+\Delta A x+\Delta A\Delta x=b
+\end{align*}
+
+By substituting $Ax=b$ and rearranging  we get
+
+$$-\Delta A(x+\Delta x)=A\Delta x$$
+$$\Rightarrow \Delta x=-A^{-1}\Delta A(x+\Delta x)$$
+By taking norms from both side and using the triangle inequality we get
+\begin{align*}
+\norm{\Delta x}&=\norm{A^{-1}\Delta A(x+\Delta x)}
+\\ &\leq \norm{A^{-1}}\norm{\Delta A} \norm{x+ \Delta x}\\
+\text{which then gives us}\\
+\norm{\Delta x}(1-\norm{A^{-1}}\norm{\Delta A})&\leq\norm{A^{-1}}\norm{\Delta A}\norm{x}
+\\\text{Therfore}\\
+\frac{\norm{\Delta x}}{\norm{x}} &\leq\frac{\norm{A^{-1}}\norm{\Delta A}}{1-\norm{A^{-1}}\norm{\Delta A}}
+=\frac{\norm{A}\norm{A^{-1}}}{(1-\norm{A^{-1}}\norm{\Delta A})}\frac{\norm{\Delta A}}{\norm{A}}
+\end{align*}
+%https://researcher.watson.ibm.com/researcher/files/ie-jakub.marecek/ch04_LinearSystems_handout.pdf
+\cite{golub2012matrix}
+\section{Conclusion}
+\bibliographystyle{ieeetr}
+\bibliography{refjh.bib}
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
