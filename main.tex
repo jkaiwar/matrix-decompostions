@@ -2,9 +2,12 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm}
-\usepackage{csquotes}
 \usepackage[square,numbers,sort&compress]{natbib}
+
+\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm,tikz,csquotes}
+
+\usetikzlibrary{calc,arrows}
+
 \begin{document}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
@@ -405,7 +408,39 @@ We can use LU decomposition to simplify the calculation for the $n$ different se
 % http://mathworld.wolfram.com/LUDecomposition.html
 % http://mathfaculty.fullerton.edu/mathews/n2003/LUFactorMod.html
 
-\section{Singular Value Decomposition}
+\section{Singular Value Decompositions}
+\label{sec:svd}
+Another useful way of decomposing a matrix is through Singular Value Decompositions (SVD). To understand the motivation for SVDs it we may consider the geometric interpretation of the SVD.
+\subsection{Motivation and Geometric Interpretation}
+\label{sec:svd:mgi}
+\begin{figure}[htb]
+  \begin{centering}
+    \begin{tikzpicture}
+%      \draw [help lines] (0,0) grid (15,6);
+      
+      \node at (1,1) {\large{S}};
+      \coordinate (left) at (3,3);
+      \draw [-] (0,3)--(6,3) node[below]{$x$};
+      \draw [-] (3,0)--(3,6) node[right]{$y$};
+      \draw (left) circle [radius=3/2];
+      \draw [->] (left)--($ (left) + (30:3/2) $) node[right] {$\mathbf{v_1}$};
+      \draw [->] (left)--($ (left) + (160:3/2) $) node[left] {$\mathbf{v_2}$};
+      
+      \draw [->, ultra thick] (7,3)--(8,3);
+      \node [above] at (7.5,3) {$A$};
+
+      \node at (10,1) {\large{AS}};
+      \coordinate (right) at (12,3);
+      \draw [-] (9,3)--(15,3) node[below]{$x$};
+      \draw [-] (12,0)--(12,6) node[right]{$y$};
+      \draw [rotate=20] (right) ellipse [x radius=2, y radius=1];
+      \draw [->] (right)--($ (right) + (1.45658529104,1.06224257585) $) node[right] {$\mathbf{\sigma_1 u_1}$};
+      \draw [->] (right)--($ (right) + (-1.64906666468,0.1) $) node[left] {$\mathbf{\sigma_2 u_2}$};
+
+
+    \end{tikzpicture}
+  \end{centering}
+\end{figure}
 
 \section{Sensitivity of Solutions to Linear Equations}
 \label{sec:ssl}
