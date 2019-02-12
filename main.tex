@@ -590,8 +590,12 @@ By taking norms from both side and using the triangle inequality we get
 \frac{\norm{\Delta x}}{\norm{x}} &\leq\frac{\norm{A^{-1}}\norm{\Delta A}}{1-\norm{A^{-1}}\norm{\Delta A}}
 =\frac{\norm{A}\norm{A^{-1}}}{(1-\norm{A^{-1}}\norm{\Delta A})}\frac{\norm{\Delta A}}{\norm{A}}
 \end{align*}
+By \cite{golub2012matrix} we know that the condition number $\kappa (A)$ is defined by
+$$\kappa (A)=\norm{A}\norm{A^{-1}}$$
+Our original inequality then turns into
+
+
 %https://researcher.watson.ibm.com/researcher/files/ie-jakub.marecek/ch04_LinearSystems_handout.pdf
-\cite{golub2012matrix}
 \section{Conclusion}
 \bibliographystyle{ieeetr}
 \bibliography{refjh.bib,refjk.bib}
