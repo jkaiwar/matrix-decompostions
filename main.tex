@@ -410,19 +410,30 @@ We can use LU decomposition to simplify the calculation for the $n$ different se
 
 \section{Singular Value Decompositions}
 \label{sec:svd}
-Another useful way of factorising a matrix is through Singular Value Decompositions (SVD). SVDs decompose a matrix $M$ into three matrices that represent distinct transformations, $M = U \Sigma V^*$. This decomposition has some useful applications that will be discussed.
+Another useful way of factorising a matrix is through Singular Value Decompositions (SVD).
+SVDs decompose a matrix $M$ into three matrices that represent distinct transformations, $M = U \Sigma V^*$.
+This decomposition has some useful applications that will be discussed.
+
 \subsection{Motivation and Geometric Interpretation}
 \label{sec:svd:1}
-To understand the motivation for SVDs it we may consider the geometric interpretation of the SVD. The fundamental idea here is that an n-dimensional sphere in vector space will produce the image of a hyperellipse (an n-dimenstional generalisation of the ellipse) when it undergoes a linear transform (we will not prove this here).
+To understand the motivation for SVDs it we may consider the geometric interpretation of the SVD.
+The fundamental idea here is that an n-dimensional sphere in vector space will produce the image of a hyperellipse (an n-dimenstional generalisation of the ellipse) when it undergoes a linear transform (we will not prove this here).
 
-Figure \ref{fig:svd:1} illustrates this in $\mathbb{R}^2$ over $\mathbb{R}$. $S$ represents a unit circle, with centre at the origin that undergoes transformation by $A \in M_{2, 2}(\mathbb{R})$. We have labelled $\mathbf{v_1}, \mathbf{v_2} \in S$, where $\norm{\mathbf{v_1}} = \norm{\mathbf{v_2}} = 1$. Over on the image side of the figure, we have the unit vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ corresponding to the vectors $\mathbf{v_1}$ and $\mathbf{v_2}$ in the pre-image. Finally we see that the vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ are scaled by scalars $\sigma_1, \sigma_2 \in \mathbb{F}$ to form the ellipse.
+Figure \ref{fig:svd:1} illustrates this in $\mathbb{R}^2$ over $\mathbb{R}$.
+$S$ represents a unit circle, with centre at the origin that undergoes transformation by $A \in M_{2, 2}(\mathbb{R})$.
+We have labelled $\mathbf{v_1}, \mathbf{v_2} \in S$, where $\norm{\mathbf{v_1}} = \norm{\mathbf{v_2}} = 1$.
+Over on the image side of the figure, we have the unit vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ corresponding to the vectors $\mathbf{v_1}$ and $\mathbf{v_2}$ in the pre-image.
+Finally we see that the vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ are scaled by scalars $\sigma_1, \sigma_2 \in \mathbb{F}$ to form the ellipse.
+
 
 The idea behind SVDs is to decompose the matrix, which  represents linear transform, into three matrices each representing a particular transform on the unit sphere (in the case of figure \ref{fig:svd:1}).
+
 \begin{itemize}
 \item Firstly a rotation of the circle by $V^*$.
-\item Secondly an elongation or scaling of the circle into an ellipse $\Sigma$.
-\item Lastly a final rotation $U$.
+\item Secondly an elongation or scaling of the circle into an ellipse by $\Sigma$.
+\item Lastly a final rotation by $U$.
 \end{itemize}
+
 Thus we write $A = U \Sigma V^*$.
 
 \begin{figure}[htb]
@@ -454,11 +465,92 @@ Thus we write $A = U \Sigma V^*$.
   \label{fig:svd:1}
 \end{figure}
 
-\subsection{Abstract definition}
+It is important to note that the intuition we have described can occur between vector spaces of different dimensions.
+For example we may choose a $9 \times 2$ matrix that maps a unit sphere in vector space of dimension $9$ to a vector space of dimension $2$.
+We know, however, by the rank nullity theorem that the image of such a transform can have a maximum dimension of $2$ in a nine-dimensional vector space.
+
+\subsection{Abstract Definition}
+\cite{trefethen97}
 \label{sec:svd:2}
 
-Now we will treat the SVD more formally and define it for an abstract vector space over a field.
+Now we will treat the SVD more formally and define it for finite dimensional real vector space.
+For $A \in M_{m,n}(\mathbb{R})$, where $m \geq n$, let  $S \subseteq \mathbb{R}^n$ be the set of points on a unit sphere, we have that $AS$ denotes the set of points on the hyperellipse in $\mathbb{R}^m$.
+\begin{itemize}
+\item We define the \emph{n singular values} of A to be $\sigma_1, \sigma_2, \dots, \sigma_n$, the principal semiaxes of $AS$ in descending order ($\sigma_1 \leq \sigma_2 \leq \dots \leq \sigma_n$).
+\item We define the \emph{n left singular vectors} of $A$: $\mathbf{u_1}, \mathbf{u_2}, \dots, \mathbf{u_n} \in AS$ to be the unit vectors on the principal semiaxes of $AS$ corresponding to $\sigma_1, \sigma_2, \dots, \sigma_n$.
+\item We define the \emph{n right singular vectors} of $A$: $\mathbf{v_1}, \mathbf{v_2}, \dots, \mathbf{v_n} \in S$ to be the pre-images of the corresponding vectors $\mathbf{u_1}, \mathbf{u_2}, \dots, \mathbf{u_n}$.
+\end{itemize}
 
+
+As we have seen in the previous section, we have that for $\mathbf{v_j}$, $\mathbf{u_j}$, $\sigma_j$ with $j \leq n$:
+\begin{equation}
+  \label{eq:svd:1}
+  A\mathbf{v_j} = \sigma_j\mathbf{u_j}
+\end{equation}
+\subsubsection{Reduced SVD}
+\label{sec:svd:2:1}
+
+Using this equation (\ref{eq:svd:1}), we can define matrices $V$ and $U$ with columns $\{\mathbf{v_1}, \mathbf{v_2}, \dots, \mathbf{v_n}\}$ and $\{\mathbf{u_1}, \mathbf{u_2}, \dots, \mathbf{u_n}\}$. Then, we have:
+\begin{equation}
+  \label{eq:svd:2}
+  AV  = \hat{U} \hat{\Sigma}
+\end{equation}
+Where $\hat{\Sigma}$ is the diagonal matrix with entries $\sigma_1, \sigma_2, \dots, \sigma_n$, i.e.\
+\[
+  \hat{\Sigma} =
+  \begin{pmatrix}
+    \sigma_1 & 0 & \dots & 0 \\
+    0 & \sigma_2 &  \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & \sigma_n \\
+  \end{pmatrix}
+\]
+
+From (\ref{eq:svd:2}) we have the reduced form of the decomposition below from right multiplication by the inverse of $V$.
+\[
+  A  = \hat{U} \hat{\Sigma} V^*
+\]
+Where $V^*$ is the inverse of $V$. This is called the reduced SVD because $\hat{U}$ is a not a square matrix for $m > n$ (see section \ref{sec:svd:2:2}).
+
+\subsubsection{Full SVD}
+\label{sec:svd:2:2}
+
+While the reduced SVDs serves to factorise a matrix, with all the properties of SVDs intact, SVDs are usually defined such that $U$ is a square matrix and $\Sigma$ is rectangular. It is trivial to extend reduced SVDs to full SVDs.
+
+If $m = n$ we have that $U$ is a unitary matrix. As its columns are unit principal axes for a hyperellipse in $\mathbb{R}^n$, they are orthonormal and span $\mathbb{R}^n$. In this case we have a complete SVD.
+
+In the case where $m > n$, we may arbitrarily append $m - n$ columns that are orthonormal to each other and each of the vectors $\mathbf{u_j}$ for $1 \leq j \leq n$ to the right of the matrix $\hat{U}$. Thus we have orthonormal unitary matrix $U$, whose columns span $\mathbb{R}^n$.
+
+Finally we append $m - n$ columns whose entries are all $0$ below $\hat{\Sigma}$ to acquire $\Sigma$. This will cancel out the arbitrary columns we appended to $\hat{U}$, preserving our equality:
+\[
+  A = U \Sigma V^*
+\]
+
+This is the full Singular Value Decomposition.
+
+\subsubsection{General Definition}
+\label{sec:svd:2:3}
+
+So far we have defined SVDs for matrices in $M_{m,n}\mathbb{R}$ where $m \geq n$, we can drop this restriction and define it for the factorisation of $A \in M_{m,n}\mathbb{R}$,
+\[
+  A = U \Sigma V^*
+\]
+where,
+\begin{align*}
+  U &\in M_{m,m}(\mathbb{R}) &\text{is unitary}\\
+  V &\in M_{n,n}(\mathbb{R}) &\text{is unitary}\\
+  \Sigma &\in M_{m,n}(\mathbb{R}) &\text{is diagonal.}\\
+\end{align*}
+
+We also have that $\sigma_1, \sigma_2, \dots, \sigma_n$ that form the diagonal of $\Sigma$ are in descending order.
+
+With our singular value decomposition well defined, we can now revisit our geometric interpretation of section \ref{sec:svd:1}. The three transforms on the unit sphere to produce a hyperellipse are seen clearly here. Firstly we have reflection or rotation by unitary $V^*$, second we stretch our circle into a hyperellipse with our diagonal matrix $\Sigma$. Lastly, without changing the shape of the matrix, we again rotate/reflect it by unitary matrix $U$.
+
+This goes to show that any real matrix that can be decomposed as described transforms a sphere to a hyperellipse. In our next section we will show that every matrix can be decomposed in such a way.
+\subsection{Existence and Uniqueness}
+\label{sec:svd:3}
+
+Lorem Ipsum.
 
 \section{Sensitivity of Solutions to Linear Equations}
 \label{sec:ssl}
@@ -502,7 +594,7 @@ By taking norms from both side and using the triangle inequality we get
 \cite{golub2012matrix}
 \section{Conclusion}
 \bibliographystyle{ieeetr}
-\bibliography{refjh.bib}
+\bibliography{refjh.bib,refjk.bib}
 \end{document}
 %%% Local Variables:
 %%% mode: latex
