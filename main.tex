@@ -410,9 +410,21 @@ We can use LU decomposition to simplify the calculation for the $n$ different se
 
 \section{Singular Value Decompositions}
 \label{sec:svd}
-Another useful way of decomposing a matrix is through Singular Value Decompositions (SVD). To understand the motivation for SVDs it we may consider the geometric interpretation of the SVD.
+Another useful way of factorising a matrix is through Singular Value Decompositions (SVD). SVDs decompose a matrix $M$ into three matrices that represent distinct transformations, $M = U \Sigma V^*$. This decomposition has some useful applications that will be discussed.
 \subsection{Motivation and Geometric Interpretation}
-\label{sec:svd:mgi}
+\label{sec:svd:1}
+To understand the motivation for SVDs it we may consider the geometric interpretation of the SVD. The fundamental idea here is that an n-dimensional sphere in vector space will produce the image of a hyperellipse (an n-dimenstional generalisation of the ellipse) when it undergoes a linear transform (we will not prove this here).
+
+Figure \ref{fig:svd:1} illustrates this in $\mathbb{R}^2$ over $\mathbb{R}$. $S$ represents a unit circle, with centre at the origin that undergoes transformation by $A \in M_{2, 2}(\mathbb{R})$. We have labelled $\mathbf{v_1}, \mathbf{v_2} \in S$, where $\norm{\mathbf{v_1}} = \norm{\mathbf{v_2}} = 1$. Over on the image side of the figure, we have the unit vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ corresponding to the vectors $\mathbf{v_1}$ and $\mathbf{v_2}$ in the pre-image. Finally we see that the vectors $\mathbf{u_1}$ and $\mathbf{u_2}$ are scaled by scalars $\sigma_1, \sigma_2 \in \mathbb{F}$ to form the ellipse.
+
+The idea behind SVDs is to decompose the matrix, which  represents linear transform, into three matrices each representing a particular transform on the unit sphere (in the case of figure \ref{fig:svd:1}).
+\begin{itemize}
+\item Firstly a rotation of the circle by $V^*$.
+\item Secondly an elongation or scaling of the circle into an ellipse $\Sigma$.
+\item Lastly a final rotation $U$.
+\end{itemize}
+Thus we write $A = U \Sigma V^*$.
+
 \begin{figure}[htb]
   \begin{centering}
     \begin{tikzpicture}
@@ -435,12 +447,18 @@ Another useful way of decomposing a matrix is through Singular Value Decompositi
       \draw [-] (12,0)--(12,6) node[right]{$y$};
       \draw [rotate=20] (right) ellipse [x radius=2, y radius=1];
       \draw [->] (right)--($ (right) + (1.45658529104,1.06224257585) $) node[right] {$\mathbf{\sigma_1 u_1}$};
-      \draw [->] (right)--($ (right) + (-1.64906666468,0.1) $) node[left] {$\mathbf{\sigma_2 u_2}$};
-
-
+      \draw [->] (right)--($ (right) + (0.1,1.08) $) node[left] {$\mathbf{\sigma_2 u_2}$};
     \end{tikzpicture}
   \end{centering}
+  \caption{A circle in $\mathbb{R}^2$ through linear map $A:\mathbb{R}^2 \to \mathbb{R}^2$ has an ellipse as its image.}
+  \label{fig:svd:1}
 \end{figure}
+
+\subsection{Abstract definition}
+\label{sec:svd:2}
+
+Now we will treat the SVD more formally and define it for an abstract vector space over a field.
+
 
 \section{Sensitivity of Solutions to Linear Equations}
 \label{sec:ssl}
