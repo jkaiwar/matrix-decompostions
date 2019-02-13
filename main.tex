@@ -12,7 +12,9 @@
 \makeatother
 \makeatletter
 \renewcommand*\env@matrix[1][\arraystretch]{%
-\edef\arraystretch{#1}
+\edef\arraystretch{#1}%
+\hskip -\arraycolsep
+\
 
 
 \usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm,tikz,csquotes}
