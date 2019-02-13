@@ -10,6 +10,8 @@
 \let\@ifnextchar\new@ifnextchar
 \array{#1}}
 \makeatother
+\makeatletter
+\renewcommand*
 
 
 \usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm,tikz,csquotes}
@@ -145,11 +147,12 @@ x_{n}
 \end{equation*}
 We then compute a finite series of ERO’s until our augmented matrix is in upper triangular (or echelon) form as seen below.
 \begin{equation*}
-    \begin{pmatrix}[cccc|c]
+    \begin{pmatrix}[ccccc|c]
     a’_{11} & a’_{12} & a’_{13} & \dots & a’_{1m} & b’_{1} \\
-    a’_{21} & a’_{22} & a’_{23} & \dots & a’_{2m} & b’_{2} \\
-    a’_{31} & a’_{32} & a’_{33} & \dots & a’_{3m} & b’_{3} \\
-    \vdots & \vdots & \vdots
+    0 & a’_{22} & a’_{23} & \dots & a’_{2m} & b’_{2} \\
+    0 & 0 & a’_{33} & \dots & a’_{3m} & b’_{3} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+    0 & 0 & 0 & \dots & a’_{nm} & b’_{n}
     \end{pmatrix}
 \end{equation*}
 
