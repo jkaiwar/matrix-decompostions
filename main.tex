@@ -1,3 +1,6 @@
+%% TODO:
+% BibTeX MathWorld citation (Jishnu).
+
 \documentclass[12pt,reqno,twoside,titlepage]{article}
 
 \usepackage[utf8]{inputenc}
@@ -8,8 +11,15 @@
 
 \usetikzlibrary{calc,arrows}
 
-\begin{document}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem*{theorem}{Theorem}
+
+\begin{document}
 
 \title{Matrix Decompositions}
 \author{George Keeble
@@ -532,9 +542,9 @@ This is the full Singular Value Decomposition.
 \label{sec:svd:2:3}
 
 So far we have defined SVDs for matrices in $M_{m,n}\mathbb{R}$ where $m \geq n$, we can drop this restriction and define it for the factorisation of $A \in M_{m,n}\mathbb{R}$,
-\[
+\begin{equation} \label{eq:svd:3}
   A = U \Sigma V^*
-\]
+\end{equation}
 where,
 \begin{align*}
   U &\in M_{m,m}(\mathbb{R}) &\text{is unitary}\\
@@ -546,11 +556,12 @@ We also have that $\sigma_1, \sigma_2, \dots, \sigma_n$ that form the diagonal o
 
 With our singular value decomposition well defined, we can now revisit our geometric interpretation of section \ref{sec:svd:1}. The three transforms on the unit sphere to produce a hyperellipse are seen clearly here. Firstly we have reflection or rotation by unitary $V^*$, second we stretch our circle into a hyperellipse with our diagonal matrix $\Sigma$. Lastly, without changing the shape of the matrix, we again rotate/reflect it by unitary matrix $U$.
 
-This goes to show that any real matrix that can be decomposed as described transforms a sphere to a hyperellipse. In our next section we will show that every matrix can be decomposed in such a way.
-\subsection{Existence and Uniqueness}
+This goes to show that any real matrix that can be decomposed as described transforms a sphere to a hyperellipse. It is known that such a decomposition \emph{exists} and is \emph{unique}. \cite{trefethen97}
+
+\subsection{Applications of SVDs}
 \label{sec:svd:3}
 
-Lorem Ipsum.
+Lorem Ipsum
 
 \section{Sensitivity of Solutions to Linear Equations}
 \label{sec:ssl}
