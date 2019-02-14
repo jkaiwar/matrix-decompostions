@@ -24,12 +24,6 @@
 
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
-\theoremstyle{definition}
-\newtheorem*{definition}{Definition}
-
-\theoremstyle{theorem}
-\newtheorem*{theorem}{Theorem}
-
 \begin{document}
 
 \title{Matrix Decompositions}
@@ -160,11 +154,11 @@ We then compute a finite series of ERO’s until our augmented matrix is in uppe
 \renewcommand*{\arraystretch}{1.5}
 \begin{equation*}
     \begin{pmatrix}[ccccc|c]
-    a’_{11} & a’_{12} & a’_{13} & \dots & a’_{1m} & b’_{1} \\
-    0 & a’_{22} & a’_{23} & \dots & a’_{2m} & b’_{2} \\
-    0 & 0 & a’_{33} & \dots & a’_{3m} & b’_{3} \\
+    a'_{11} & a'_{12} & a'_{13} & \dots & a'_{1m} & b'_{1} \\
+    0 & a'_{22} & a'_{23} & \dots & a'_{2m} & b'_{2} \\
+    0 & 0 & a'_{33} & \dots & a'_{3m} & b'_{3} \\
     \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-    0 & 0 & 0 & \dots & a’_{nm} & b’_{n}
+    0 & 0 & 0 & \dots & a'_{nm} & b'_{n}
     \end{pmatrix}
 \end{equation*}
 \endgroup
@@ -173,7 +167,7 @@ At this point we have completed the Gaussian elimination procedure and we can no
 \newline
 If we arrive at a matrix that is in reduced row echelon form (in accordance with 1., 2. and 3. as above) then we say that we have completed the Gauss-Jordan procedure and we then go on to solve for x in the same manner. We can generalise this to the formula:
 \begin{equation*}
-    x_{i} = \frac{1}{a’_{ii}}(b’_{i} - \sum_{j = i + 1}^{n} a’_{ij} x_{j})
+    x_{i} = \frac{1}{a'_{ii}}(b'_{i} - \sum_{j = i + 1}^{n} a'_{ij} x_{j})
 \end{equation*}
 \newline
 Let us call this reduced matrix M, if the last column of M has a leading 1 then the system has no solutions, if all columns bar the last column has a leading 1 then the system has a singular, unique solution. If however, the last column of M has no leading 1 and there are less than n columns with leading 1’s then the system has infinitely many solutions and we say that M possesses a free variable.
