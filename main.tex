@@ -43,7 +43,7 @@
 \section{Introduction}
 \label{sec:int}
 the quick brown fox jumped over the lazy dog.
-
+\newpage
 \section{Gaussian Elimination}
 \label{sec:gaus}
 
@@ -100,7 +100,10 @@ Computing a finite number of ERO’s or multiplying a matrix A by a finite numbe
 
 We now need to define an upper triangular matrix, it is a matrix where all elements below the main diagonal are 0, if a matrix is upper triangular then it is in row echelon form. This is an easy way to know purely from observation whether a matrix is in echelon form.
 
-Gaussian elimination has many applications, its most simple is arguably its ability to simplify a system of linear equations in order to determine a set of solutions, depending on the structure of the matrix in echelon form alters the solutions of a system of equations. We shall know go through the process and discuss the solutions and why they have the nature they possess. \begin{exmp}
+\paragraph{Remark}
+Gaussian elimination has many applications, its most simple is arguably its ability to simplify a system of linear equations in order to determine a set of solutions, depending on the structure of the matrix in echelon form alters the solutions of a system of equations. 
+\newline
+We shall know go through the process and discuss the solutions and why they have the nature they possess. \begin{exmp}
 Consider the equation $A\textbf{x} = \textbf{b}$
 
 \begin{equation*}
@@ -162,6 +165,7 @@ We then compute a finite series of ERO’s until our augmented matrix is in uppe
 \end{exmp}
 At this point we have completed the Gaussian elimination procedure and we can now solve the $n^{th}$ row for $x_{n}$ and then substitute this value into the $(n-1)$ row to obtain a solution for $x_{n-1}$ and so on until we have a solution for all values of x.
 \newline
+\paragraph{Remark}
 If we arrive at a matrix that is in reduced row echelon form (in accordance with 1., 2. and 3. as above) then we say that we have completed the Gauss-Jordan procedure and we then go on to solve for x in the same manner. We can generalise this to the formula:
 \begin{equation*}
     x_{i} = \frac{1}{a'_{ii}}(b'_{i} - \sum_{j = i + 1}^{n} a'_{ij} x_{j})
@@ -169,6 +173,43 @@ If we arrive at a matrix that is in reduced row echelon form (in accordance with
 \newline
 Let us call this reduced matrix M, if the last column of M has a leading 1 then the system has no solutions, if all columns bar the last column has a leading 1 then the system has a singular, unique solution. If however, the last column of M has no leading 1 and there are less than n columns with leading 1’s then the system has infinitely many solutions and we say that M possesses a free variable.
 \newline
+We shall now give a list of examples of augmented matrices in either row or reduced row echelon form and comment on the nature of the solutions.
+\begin{exmp}
+\begin{equation*}
+A =
+    \begin{pmatrix}[ccc|c]
+    1 & 0 & 4 & \frac{1}{2} \\
+    0 & 1 & \frac{3}{2} & 6 \\
+    0 & 0 & 1 & 7 \\
+    0 & 0 & 0 & 0
+    \end{pmatrix}
+\end{equation*}
+This matrix A has a unique solution where $x_{1} = -\frac{55}{2}, x_{2} = -\frac{9}{2}, x_{3} = 7$ because the last column is the only column not to have a leading 1.
+\end{exmp}
+\begin{exmp}
+\begin{equation*}
+    B =
+    \begin{pmatrix}[ccccc|c]
+    1 & 3 & -\frac{4}{3} & 0 & 1 & \frac{7}{2} \\
+    0 & 0 & 1 & -4 & -\frac{5}{2} & -3 \\
+    0 & 0 & 0 & 0 & 1 & \frac{11}{3} \\
+    0 & 0 & 0 & 0 & 0 & 6
+    \end{pmatrix}
+\end{equation*}
+This matrix B has no solutions due to the fact that the last column has a leading 1 and it is clear that $0\cdot x_{1} + 0\cdot x_{2} + 0\cdot x_{3} + 0\cdot x_{4} + 0\cdot x_{5} \ne 6$
+\end{exmp}
+\begin{exmp}
+\begin{equation*}
+    C =
+    \begin{pmatrix}[ccc|c]
+    1 & 0 & 3 & 4 \\
+    0 & 1 & -2 & 5 \\
+    0 & 0 & 0 & 0
+    \end{pmatrix}
+\end{equation*}
+This matrix C has solution set $(4-3x_{3}, 5+2x_{3}, x_{3})$ where $x_{3}$ is a free variable and can take on any value hence the system has infinitely many solutions.
+\end{exmp}
+
 Fangcheng is the title of the eighth chapter from a chinese book named ”The Nine Chapters on the Mathematical Art”, this chapter contained 18 problems, each one concerning solving a system of linear equations, the structure of the problem was straightforward, a question was posed, an answer given and then a method on how to acheive this answer. All 18 problems bar problem 13 were determinate, 13 was special as it had one fewer equations than unknowns and so did not have a unique solution, Fangcheng is believed to be one of the earliest forms of Gaussian Elimination.
 % Reference:
 % https://www.dr-eriksen.no/teaching/GRA6035/Reading/LSGE.pdf
@@ -739,7 +780,6 @@ Substituting this back into our perturbed system we get
 (A+\Delta A)(x+\Delta x)= b\\
 Ax+A\Delta x+\Delta A x+\Delta A\Delta x=b
 \end{align*}
-
 By substituting $Ax=b$ and rearranging  we get
 
 $$-\Delta A(x+\Delta x)=A\Delta x$$
@@ -772,6 +812,9 @@ $$\kappa (A)=\norm{A}\norm{A^{-1}}.$$
 Our original inequality then turns into
 
 $$\frac{\norm{\Delta x}}{\norm{x}}\leq\kappa (A)\frac{\norm{\Delta A}}{\norm{A}}$$
+
+If $\kappa(A)$ of an matrix is large we say the matrix is ill-conditioned\cite{ssls}, which mean it is very sensitive to small changes, i.e. a small change in the coefficients may lead to large errors in the solutions. All singular matrix are ill-conditioned since they have condition number prone to infinity.
+If $\kappa (A)$ is small we then call the matrix to be well-conditioned\cite{ssls}
 %http://terpconnect.umd.edu/~petersd/460/linsysterrn.pdf
 %https://www.physicsforums.com/threads/norm-of-operator-vs-norm-of-its-inverse.487496/
 %https://www2.math.uconn.edu/~leykekhman/courses/MATH3795/Lectures/Lecture_6_Linear_system_error.pdf
