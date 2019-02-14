@@ -447,7 +447,7 @@ The idea behind SVDs is to decompose the matrix, which  represents linear transf
 Thus we write $A = U \Sigma V^*$.
 
 \begin{figure}[htb]
-  \begin{centering}
+nnn  \begin{centering}
     \begin{tikzpicture}
 %      \draw [help lines] (0,0) grid (15,6);
       
@@ -558,10 +558,47 @@ With our singular value decomposition well defined, we can now revisit our geome
 
 This goes to show that any real matrix that can be decomposed as described transforms a sphere to a hyperellipse. It is known that such a decomposition \emph{exists} and is \emph{unique}. \cite{trefethen97}
 
-\subsection{Applications of SVDs}
+\subsection{Applications}
 \label{sec:svd:3}
 
-Lorem Ipsum
+The SVD is a very useful decomposition.
+We are able to solve many matrix problems by decomposing the matrix like this, as well as apply SVDs to many computing applications such as image compression and page-ranking in web searches.
+
+Fundamentally, a matrix decompositions (including eigendecompositions or LU decompositions) breaks down a complex array of data into smaller, more understandable chunks.
+While eigendecomposition and singular value decomposition are similar in that they map the domain to a different basis where they are scaled, they have some key differences; in particular, SVDs can decompose any matrix and the resultant diagonal matrix $\Sigma$ has only real, positive entries.
+
+We will take a look at some particular applications of SVDs.
+However, they have many other notable uses such as:
+\begin{itemize}
+\item  We have that pseudo-inverse $A^+$ (Moore-Penrose) for matrix $A$ satisfies the following criteria (Penrose conditions) \cite{golub2012matrix}.
+  \begin{enumerate}
+  \item $AA^+A = A$
+  \item $A^+AA^+ = A^+$
+  \item $(AA^+)^* = AA^+$
+  \item $(A^+A)^* = A^+A$
+  \end{enumerate}
+  The pseudo-inverse is very useful in computing linear least squares, a method that is used in data analysis to find lines of best fit.
+  If $A = U \Sigma V^*$, the pseudoinverso of $A$ is given by
+  \[
+    A = V \Sigma U^*
+  \]
+\item The singular value decomposition illustrates the image and kernel of the matrix very well.
+  For a matrix $A$ that is decomposed into $U \Sigma V^*$ clearly has the basis of its image in the linearly independent columns of $U$ and the kernel's basis in the linearly independent columns of $V$.
+\end{itemize}
+
+\subsubsection{Data Compression}
+\label{sec:3:ic}
+
+In many computing applications data is stored in arrays and matrices.
+To privide an illustrative example, we will use the example of an two-dimensional digital image which is essentially a grid of pixels, each pixel of a certain color.
+This image can be represented as a matrix.
+
+For an image $352 \times 240$ pixels large, we can have a corresponding matrix that has 240 rows and 352 columns with each entry representing the color of the corresponding pixel.
+We might have that in this matrix there are repeating rows or columns, i.e.\ that the matrix is not linearly independent.
+This can be compressed by applying an SVD on the matrix. We note that the matrix will have exactly \emph{n singular values}, where $n$ is the rank of the matrix.
+
+This forms the central idea in the compression of images through SVDs. In reality images and other data are compressed by several algorithms, including Fast Fourier transforms \cite{strang09}.
+
 
 \section{Sensitivity of Solutions to Linear Equations}
 \label{sec:ssl}
